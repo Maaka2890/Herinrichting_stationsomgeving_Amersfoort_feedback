@@ -77,6 +77,16 @@
                 map.fitBounds(bounds_group.getBounds());
             }
         }
+        map.createPane('pane_home');
+        map.getPane('pane_home').style.zIndex = 400;
+        var img_home = 'data/home2.png';
+        var img_bounds_home = [[-0.031512920,-0.000000002],[0.000023500,0.044565413]];
+        var layer_home = new L.imageOverlay(img_home,
+                                              img_bounds_home,
+                                              {pane: 'pane_home'});
+        bounds_group.addLayer(layer_home);
+        map.addLayer(layer_home);
+
         map.createPane('pane_Snouckaert');
         map.getPane('pane_Snouckaert').style.zIndex = 400;
         var img_Snouckaert = 'data/Snouckaert.png';
@@ -85,7 +95,7 @@
                                               img_bounds_Snouckaert,
                                               {pane: 'pane_Snouckaert'});
         bounds_group.addLayer(layer_Snouckaert);
-        map.addLayer(layer_Snouckaert);
+        //map.addLayer(layer_Snouckaert);
 
         map.createPane('pane_plein');
         map.getPane('pane_plein').style.zIndex = 400;
