@@ -11,22 +11,153 @@
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
 
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     
         <style>
+        body {
+            margin: 0;
+            padding: 0 ;
+            background: #fff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        #logo {
+            bottom: 13px;
+            right: 30px;
+            height: 40px;
+            width: 200px;
+            z-index: 1;
+            position: fixed;
+        }
         #map {
             position: absolute;
             top: 0;
             bottom: 30%;
             width: 100%;
         }
+
+.menuPannel, .menuPannel * {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-family: "Segoe UI";
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.menuPannel {
+    display: block;
+    width: 100%;
+    max-width: 30em;
+    margin: 10px auto;
+    height: 2.5em;
+    font-size: 10pt;
+    font-family: "Segoe UI";
+    border-radius: 10px;
+    background: rgb(254, 254, 254);
+    box-shadow: rgba(0, 0, 0, 0.2) 1px 1px 5px;
+    position: relative;
+}
+
+.menuPannel a {
+    width: 25%;
+    float: left;
+    text-align: center;
+    line-height: 2.5em;
+    color: #222;
+    position: relative;
+    z-index: 500;
+    cursor: pointer;
+    /* transition: all 0.2s ease-in-out; */
+    text-decoration: none;
+}
+
+.menuItem.active {
+    color: #fff;
+    text-shadow: rgba(0, 0, 0, 0.1) 0px -1px 2px;
+}
+
+.indicator {
+    display: block;
+    width: 25%;
+    height: 2.5em;
+    background: #00963f;
+    background-image: linear-gradient(-143deg, #00dd5e 0%, #00963f 100%);
+    border: solid #fff 3px;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    z-index: 250;
+    /* transition: left 0.2s ease-in-out; */
+}
+
+.menuPannel .menuItem:nth-of-type(1).active~.indicator {
+    left: 0%;
+}
+
+.menuPannel .menuItem:nth-of-type(2).active~.indicator {
+    left: 25%;
+}
+
+.menuPannel .menuItem:nth-of-type(3).active~.indicator {
+    left: 50%;
+}
+
+.menuPannel .menuItem:nth-of-type(4).active~.indicator {
+    left: 75%;
+}
+.animated {
+    transition: all 0.15s ease-in-out;
+}
+
+.hidden-content-pannel {
+    opacity: 0;
+    visibility: hidden;
+}
+
+@media (min-width: 500px) {
+    .menuPannel {
+        font-size: 12pt;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    #logo {
+        bottom: 5px;
+        top: unset;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .menuPannel {
+        margin: 10px;
+        width: unset;
+    }
+}
         </style>
         <title>Resultaten Amersfoort</title>
     </head>
     <body>
-        <div id="map">
-        </div>
+        
+        <a id="logo" href="https://www.goudappel.nl" target="_blank"> 
+            <img src="GG_logo.svg" type= "image/svg+xml" width="200px" height="40px" > </img>
+        </a>
+        <div id="map" class="animated" ></div>
+
+    <div class="menuPannel">
+        <a class="menuItem animated active" id="menu-1" href="#1" onclick="menuSelect(1)">Home</a>
+        <a class="menuItem animated" id="menu-2" href="#2" onclick="menuSelect(2)">Snouckaertlaan</a>
+        <a class="menuItem animated" id="menu-3" href="#3" onclick="menuSelect(3)">Stationsplein</a>
+        <a class="menuItem animated" id="menu-4" href="#4" onclick="menuSelect(4)">Stationsstraat</a>
+        <div class="indicator animated"></div>
+    </div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
@@ -58,6 +189,7 @@
               });
             }
         }
+        
 
         var mbAttr = 'Map design <a href="https://www.Goudappel.nl">Goudappel</a> ';
 
@@ -71,7 +203,7 @@
         }).fitBounds([[-0.03809664712723063,-0.016479805161073804],[0.008400675553052845,0.06500007905587538]]).setView([-0.0160, 0.0224], 15);
 
         var hash = new L.Hash(map);
-        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS </a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
@@ -432,14 +564,43 @@
         var Snouckaert = L.layerGroup([layer_Snouckaert, layer_Snouck_pos_1, layer_Snouck_neg_0])
         var Plein = L.layerGroup([layer_plein, layer_Plein_pos_1, layer_Plein_neg_0])
         var Straat = L.layerGroup([layer_straat, layer_Straat_neg_0, layer_Straat_pos_1])
-             
-	    var baseLayers = {
-		    "Snouckaertlaan": Snouckaert,
-		    "Stationsplein": Plein,
-		    "Stationsstraat": Straat
-	    };
 
-        L.control.layers(baseLayers).addTo(map);
+        function menuSelect(menuItem) {
+            $(".menuItem").removeClass("active"); // make sure non menu item is slected
+            $(".content-pannel").addClass("hidden-content-pannel");
+            switch (menuItem) { // execute 
+                case 1:
+                    $("#menu-1").addClass("active");
+                    $(".content-pannel").removeClass("hidden-content-pannel");
+                    map.removeLayer(Snouckaert);
+                    map.removeLayer(Plein);
+                    map.removeLayer(Straat);
+                    map.addLayer(start);
+                    break;
+                case 2:
+                    $("#menu-2").addClass("active");
+                    map.removeLayer(start);
+                    map.removeLayer(Plein);
+                    map.removeLayer(Straat);
+                    map.addLayer(Snouckaert);
+                    break;
+                case 3:
+                    $("#menu-3").addClass("active");
+                    map.removeLayer(start);
+                    map.removeLayer(Snouckaert);
+                    map.removeLayer(Straat);
+                    map.addLayer(Plein);
+                    break;
+                case 4:
+                    $("#menu-4").addClass("active");
+                    map.removeLayer(start);
+                    map.removeLayer(Snouckaert);
+                    map.removeLayer(Plein);
+                    map.addLayer(Straat);
+                    break;
+                default:
+            };
+        };
 
         </script>
     </body>

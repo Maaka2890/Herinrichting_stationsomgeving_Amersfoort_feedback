@@ -20,11 +20,11 @@
         }
         .leaflet-container {
             background: #fff;
-            padding-right: 10px;
+            padding-right: 0px;
         }
         .leaflet-popup-content {
             width:auto;
-            padding-right:10px;
+            padding-right:0px;
         }
         .leaflet-tooltip {
             background: none;
@@ -33,7 +33,6 @@
         }
         .leaflet-tooltip-left:before, .leaflet-tooltip-right:before {
             border: 0px;
-        }
         }
         .fa, .leaflet-container, a {
             color: #000000 !important;
