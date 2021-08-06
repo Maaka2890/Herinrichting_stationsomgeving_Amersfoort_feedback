@@ -36,7 +36,7 @@
         #map {
             position: absolute;
             top: 0;
-            bottom: 30%;
+            bottom: 66px;
             width: 100%;
             z-index: 150;
         }
@@ -192,10 +192,7 @@
             }
         }
         
-
-        var mbAttr = 'Map design <a href="https://www.Goudappel.nl">Goudappel</a> ';
-
-	    var start   = L.tileLayer('', {attribution: mbAttr});
+	    var start   = L.tileLayer('', '');
 
         var map = L.map('map', {
             zoomControl:true, 
@@ -205,7 +202,7 @@
         }).fitBounds([[-0.03809664712723063,-0.016479805161073804],[0.008400675553052845,0.06500007905587538]]).setView([-0.0160, 0.0224], 15);
 
         var hash = new L.Hash(map);
-        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS </a>');
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS </a>| Map design <a href="https://www.Goudappel.nl">Goudappel </a> ');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
